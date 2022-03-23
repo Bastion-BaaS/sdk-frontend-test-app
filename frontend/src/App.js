@@ -3,6 +3,7 @@ import axios from 'axios';
 import CollectionNameInput from './components/CollectionNameInput';
 import CollectionItemInput from './components/CollectionItemInput';
 import LoginForm from './components/LoginForm';
+import RunCcf from './components/RunCcf';
 
 import initialize from 'bastion-sdk';
 const bastion = initialize('http://localhost:3000', 'development');
@@ -13,26 +14,26 @@ const App = () => {
 	const [ fileState, setFileState ] = useState();
 	const [ isFileSelected, setIsFileSelected ] = useState(false);
 
-  const handleRegister = (username, password) => {
-    bastion.auth.register(username, password)
+  const handleRegister = (username, email, password) => {
+    bastion.auth.register(username, email, password)
       .then((result) => {
-        setResultSection('User registered');
+        setResultSection(result.data);
         console.log(result.data);
       })
   }
 
-  const handleLogin = (username, password) => {
-    bastion.auth.login(username, password)
+  const handleLogin = (username, email, password) => {
+    bastion.auth.login(username, email, password)
       .then((result) => {
-        setResultSection('Logged in');
+        setResultSection(result.data);
         console.log(result.data);
       })
   }
 
-  const handleLogout = (username) => {
-    bastion.auth.logout(username)
+  const handleLogout = () => {
+    bastion.auth.logout()
       .then((result) => {
-        setResultSection('Logged out');
+        setResultSection(result.data);
         console.log(result.data);
       })
   }
@@ -99,6 +100,14 @@ const App = () => {
       });
   }
 
+  const handleRunCcf = (functionName, params) => {
+    bastion.ccf.run(functionName, params)
+      .then((result) => {
+        setResultSection(result.data);
+        console.log(result.data);
+      });
+  }
+
   const handleUploadFile = (e) => {
     setFileState(e.target.files[0]);
     setIsFileSelected(true);
@@ -128,12 +137,20 @@ const App = () => {
     <div>
       <LoginForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
 
+      <br/>
+      <br/>
+
       <CollectionNameInput title='Get collection:' onSubmit={handleGetCollection}/>
       <CollectionItemInput title='Get collection item:' onSubmit={handleGetItem}/>
       <CollectionItemInput title='Create collection item:' onSubmit={handleCreateItem} isJson={true}/>
       <CollectionItemInput title='Update collection item (PATCH):' onSubmit={handleOverwriteItem} isUpdate={true}/>
       <CollectionItemInput title='Update collection item (PUT):' onSubmit={handleUpdateItem} isUpdate={true}/>
       <CollectionItemInput title='Delete collection item:' onSubmit={handleDeleteItem}/>
+
+      <br/>
+      <br/>
+
+      <RunCcf onSubmit={handleRunCcf}/>
 
       <br/>
       <br/>
