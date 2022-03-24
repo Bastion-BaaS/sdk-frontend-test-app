@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const LoginForm = ({ onRegister, onLogin, onLogout }) => {
+const Register = ({ onRegister }) => {
   const [ username, setUsername ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -19,17 +19,6 @@ const LoginForm = ({ onRegister, onLogin, onLogout }) => {
   // all 3 are required
   const handleRegister = () => {
     onRegister(username, email, password);
-    clearInput();
-  }
-
-  // login only needs username and password
-  const handleLogin = () => {
-    onLogin(username, email, password);
-    clearInput();
-  }
-
-  const handleLogout = () => {
-    onLogout(username);
     clearInput();
   }
 
@@ -54,10 +43,8 @@ const LoginForm = ({ onRegister, onLogin, onLogout }) => {
         placeholder="password"
       />
       <input type="submit" value="Register" onClick={handleRegister}/>
-      <input type="submit" value="Log in" onClick={handleLogin}/>
-      <input type="submit" value="Log out" onClick={handleLogout}/>
     </div>
   )
 };
 
-export default LoginForm;
+export default Register;

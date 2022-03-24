@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import CollectionNameInput from './components/CollectionNameInput';
 import CollectionItemInput from './components/CollectionItemInput';
-import LoginForm from './components/LoginForm';
+import UserForm from './components/UserForm';
 import RunCcf from './components/RunCcf';
+import FileForm from './components/FileForm';
+import FileInput from './components/FileInput';
 
 import initialize from 'bastion-sdk';
 const bastion = initialize('http://localhost:3000', 'development');
 
 const App = () => {
-  const [ collections, setCollections ] = useState([]);
   const [ resultSection, setResultSection] = useState('');
-	const [ fileState, setFileState ] = useState();
-	const [ isFileSelected, setIsFileSelected ] = useState(false);
 
   const handleRegister = (username, email, password) => {
     bastion.auth.register(username, email, password)
@@ -58,11 +56,7 @@ const App = () => {
     bastion.db.createItem(collectionName, itemJson) // assume valid json
       .then((result) => {
         setResultSection(result.data);
-        setCollections(collections.map(obj => {
-          return obj.name === collectionName
-            ? {...obj, data: obj.data.concat(result.data)}
-            : obj;
-        }));
+        console.log(result.data);
       });
   }
 
@@ -70,11 +64,7 @@ const App = () => {
     bastion.db.overwriteItem(collectionName, itemId, itemJson)
       .then((result) => {
         setResultSection(result.data);
-        setCollections(collections.map(obj => {
-          return {...obj, data: obj.data.map(item => item.id === Number(itemId)
-            ? result.data
-            : item)}
-        }));
+        console.log(result.data);
       });
   }
 
@@ -82,11 +72,7 @@ const App = () => {
     bastion.db.updateItem(collectionName, itemId, itemJson)
       .then((result) => {
         setResultSection(result.data);
-        setCollections(collections.map(obj => {
-          return {...obj, data: obj.data.map(item => item.id === Number(itemId)
-            ? result.data
-            : item)}
-        }));
+        console.log(result.data);
       });
   }
 
@@ -94,9 +80,7 @@ const App = () => {
     bastion.db.deleteItem(collectionName, itemId)
       .then((result) => {
         setResultSection('Item deleted');
-        setCollections(collections.map(obj => {
-          return {...obj, data: obj.data.filter(item => item.id !== Number(itemId))};
-        }));
+        console.log(result.data);
       });
   }
 
@@ -108,44 +92,51 @@ const App = () => {
       });
   }
 
-  const handleUploadFile = (e) => {
-    setFileState(e.target.files[0]);
-    setIsFileSelected(true);
+  const handleGetAllFiles = () => {
+    bastion.storage.getAllFiles()
+    .then((result) => {
+      setResultSection(result.data);
+      console.log(result.data)
+    });
   }
 
-  const handleSendFile = () => {
-    if (!isFileSelected) {
-      console.log('No file selected');
-      return;
-    }
+  const handleGetFile = (fileId) => {
+    bastion.storage.getFile(fileId)
+    .then((result) => {
+      setResultSection(result.data);
+      console.log(result.data)
+    });
+  }
 
-    const formData = new FormData();
-    formData.append('file', fileState)
+  const handleSendFile = (fileState) => {
+    bastion.storage.uploadFile(fileState)
+      .then((result) => {
+        setResultSection(result.data);
+        console.log(result.data)
+      });
+  }
 
-    axios.post('whatever route you want',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(() => console.log('Success!'))
-      .catch((err) => console.log(err));
+  const handleDeleteFile = (fileId) => {
+    bastion.storage.deleteFile(fileId)
+    .then((result) => {
+      setResultSection('Deleted');
+      console.log(result.data)
+    });
   }
 
   return (
     <div>
-      <LoginForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
+      <UserForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
 
       <br/>
       <br/>
 
-      <CollectionNameInput title='Get collection:' onSubmit={handleGetCollection}/>
-      <CollectionItemInput title='Get collection item:' onSubmit={handleGetItem}/>
-      <CollectionItemInput title='Create collection item:' onSubmit={handleCreateItem} isJson={true}/>
-      <CollectionItemInput title='Update collection item (PATCH):' onSubmit={handleOverwriteItem} isUpdate={true}/>
-      <CollectionItemInput title='Update collection item (PUT):' onSubmit={handleUpdateItem} isUpdate={true}/>
-      <CollectionItemInput title='Delete collection item:' onSubmit={handleDeleteItem}/>
+      <CollectionNameInput title='Get collection: ' onSubmit={handleGetCollection}/>
+      <CollectionItemInput title='Get collection item: ' onSubmit={handleGetItem}/>
+      <CollectionItemInput title='Create collection item: ' onSubmit={handleCreateItem} isJson={true}/>
+      <CollectionItemInput title='Update collection item (PATCH): ' onSubmit={handleOverwriteItem} isUpdate={true}/>
+      <CollectionItemInput title='Update collection item (PUT): ' onSubmit={handleUpdateItem} isUpdate={true}/>
+      <CollectionItemInput title='Delete collection item: ' onSubmit={handleDeleteItem}/>
 
       <br/>
       <br/>
@@ -155,14 +146,14 @@ const App = () => {
       <br/>
       <br/>
 
-      <div>
-        <input type='file' name='file' onChange={handleUploadFile}/>
-        <button onClick={handleSendFile}>Submit File</button>
-        {isFileSelected ?
-          <p>{fileState.name}</p>
-          : null
-        }
-      </div>
+      <FileInput title='Get all files: ' onSubmit={handleGetAllFiles}/>
+      <FileInput title='Get file: ' onSubmit={handleGetFile}/>
+      <FileInput title='Delete file: ' onSubmit={handleDeleteFile}/>
+
+      <br/>
+      <br/>
+
+      <FileForm onSend={handleSendFile}/>
 
       <br/>
       <br/>
@@ -173,8 +164,6 @@ const App = () => {
           {JSON.stringify(resultSection)}
         </p>
       </div>
-
-      
     </div>
   );
 }

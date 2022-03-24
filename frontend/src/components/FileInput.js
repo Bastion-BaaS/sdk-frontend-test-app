@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-const CollectionNameInput = ({ title, onSubmit }) => {
-  const [ collectionName, setCollectionName ] = useState('');
+const FileInput = ({ title, onSubmit }) => {
+  const [ fileId, setFileId ] = useState('');
 
   const changeCollection = (e) => {
     e.preventDefault();
-    setCollectionName(e.target.value);
+    setFileId(e.target.value);
   }
 
   const handleSubmit = () => {
-    onSubmit(collectionName);
-    // setCollectionName('');
+    onSubmit(fileId);
+    // setFileId('');
   }
 
   return (
@@ -19,9 +19,9 @@ const CollectionNameInput = ({ title, onSubmit }) => {
       {title}
       <input
         type="text"
-        value={collectionName}
+        value={fileId}
         onChange={changeCollection}
-        placeholder="collection name"
+        placeholder="file ID"
       />
       <input
         type="submit"
@@ -31,4 +31,4 @@ const CollectionNameInput = ({ title, onSubmit }) => {
   )
 };
 
-export default CollectionNameInput;
+export default FileInput;
