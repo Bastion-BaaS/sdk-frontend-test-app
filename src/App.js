@@ -5,8 +5,9 @@ import UserForm from './components/UserForm';
 import RunCcf from './components/RunCcf';
 import FileForm from './components/FileForm';
 import FileInput from './components/FileInput';
-
+import Header from './components/Header';
 import initialize from 'bastion-sdk';
+
 const bastion = initialize('http://localhost:3000', 'development');
 
 const App = () => {
@@ -126,43 +127,48 @@ const App = () => {
 
   return (
     <div>
-      <UserForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
+      <Header />
+      <div className='flex flex-col items-center' id='main'>
 
-      <br/>
-      <br/>
+        <p className="text-xl text-black mb-4">User registration</p>
+        <UserForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
 
-      <CollectionNameInput title='Get collection: ' onSubmit={handleGetCollection}/>
-      <CollectionItemInput title='Get collection item: ' onSubmit={handleGetItem}/>
-      <CollectionItemInput title='Create collection item: ' onSubmit={handleCreateItem} isJson={true}/>
-      <CollectionItemInput title='Update collection item (PATCH): ' onSubmit={handleOverwriteItem} isUpdate={true}/>
-      <CollectionItemInput title='Update collection item (PUT): ' onSubmit={handleUpdateItem} isUpdate={true}/>
-      <CollectionItemInput title='Delete collection item: ' onSubmit={handleDeleteItem}/>
+        <br/>
+        <br/>
 
-      <br/>
-      <br/>
+        <CollectionNameInput title='Get collection: ' onSubmit={handleGetCollection}/>
+        <CollectionItemInput title='Get collection item: ' onSubmit={handleGetItem}/>
+        <CollectionItemInput title='Create collection item: ' onSubmit={handleCreateItem} isJson={true}/>
+        <CollectionItemInput title='Update collection item (PATCH): ' onSubmit={handleOverwriteItem} isUpdate={true}/>
+        <CollectionItemInput title='Update collection item (PUT): ' onSubmit={handleUpdateItem} isUpdate={true}/>
+        <CollectionItemInput title='Delete collection item: ' onSubmit={handleDeleteItem}/>
 
-      <RunCcf onSubmit={handleRunCcf}/>
+        <br/>
+        <br/>
 
-      <br/>
-      <br/>
+        <RunCcf onSubmit={handleRunCcf}/>
 
-      <FileInput title='Get all files: ' onSubmit={handleGetAllFiles}/>
-      <FileInput title='Get file: ' onSubmit={handleGetFile}/>
-      <FileInput title='Delete file: ' onSubmit={handleDeleteFile}/>
+        <br/>
+        <br/>
 
-      <br/>
-      <br/>
+        <FileInput title='Get all files: ' onSubmit={handleGetAllFiles}/>
+        <FileInput title='Get file: ' onSubmit={handleGetFile}/>
+        <FileInput title='Delete file: ' onSubmit={handleDeleteFile}/>
 
-      <FileForm onSend={handleSendFile}/>
+        <br/>
+        <br/>
 
-      <br/>
-      <br/>
+        <FileForm onSend={handleSendFile}/>
 
-      <div>
-        Your result:
-        <p className="result">
-          {JSON.stringify(resultSection)}
-        </p>
+        <br/>
+        <br/>
+
+        <div>
+          Your result:
+          <p className="result">
+            {JSON.stringify(resultSection)}
+          </p>
+        </div>
       </div>
     </div>
   );
