@@ -126,49 +126,52 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='h-screen'>
       <Header />
-      <div className='flex flex-col items-center' id='main'>
-
-        <p className="text-xl text-black mb-4">User registration</p>
-        <UserForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
-
-        <br/>
-        <br/>
-
-        <CollectionNameInput title='Get collection: ' onSubmit={handleGetCollection}/>
-        <CollectionItemInput title='Get collection item: ' onSubmit={handleGetItem}/>
-        <CollectionItemInput title='Create collection item: ' onSubmit={handleCreateItem} isJson={true}/>
-        <CollectionItemInput title='Update collection item (PATCH): ' onSubmit={handleOverwriteItem} isUpdate={true}/>
-        <CollectionItemInput title='Update collection item (PUT): ' onSubmit={handleUpdateItem} isUpdate={true}/>
-        <CollectionItemInput title='Delete collection item: ' onSubmit={handleDeleteItem}/>
-
-        <br/>
-        <br/>
-
-        <RunCcf onSubmit={handleRunCcf}/>
-
-        <br/>
-        <br/>
-
-        <FileInput title='Get all files: ' onSubmit={handleGetAllFiles}/>
-        <FileInput title='Get file: ' onSubmit={handleGetFile}/>
-        <FileInput title='Delete file: ' onSubmit={handleDeleteFile}/>
-
-        <br/>
-        <br/>
-
-        <FileForm onSend={handleSendFile}/>
-
-        <br/>
-        <br/>
-
-        <div>
-          Your result:
-          <p className="result">
-            {JSON.stringify(resultSection)}
-          </p>
+      <div className='flex flex-col items-center h-full' id='main'>
+        {/* PAGE /USERS */}
+        <div className="flex-auto flex flex-col items-center max-w-screen-lg pt-12 pb-2 mb-64 h-full">
+          <p className="text-2xl text-black mb-2">User registration</p>
+          <UserForm onRegister={handleRegister} onLogin={handleLogin} onLogout={handleLogout}/>
         </div>
+        {/* END OF PAGE /USERS */}
+
+        {/* PAGE /COLLECTIONS */}
+        <div className="flex-auto flex flex-col items-center max-w-screen-lg pt-12 pb-2 mb-64 h-full">
+          <p className="text-2xl text-black mb-2">Data operations</p>
+        {/* CAN WE PUT JSON DISPLAY THING AT THE TOP HERE TO SHOW RESULTANT DATA? */}
+          <div className='flex flex-col items-start'>
+            <CollectionNameInput title='Get all records of a collection' onSubmit={handleGetCollection}/>
+            <CollectionItemInput title='Get collection item' onSubmit={handleGetItem}/>
+            <CollectionItemInput title='Create collection item' onSubmit={handleCreateItem} isJson={true}/>
+            <CollectionItemInput title='PATCH a collection item' onSubmit={handleOverwriteItem} isUpdate={true}/>
+            <CollectionItemInput title='PUT a collection item' onSubmit={handleUpdateItem} isUpdate={true}/>
+            <CollectionItemInput title='Delete collection item' onSubmit={handleDeleteItem}/>
+          </div>
+        </div>
+        {/* END OF PAGE /COLLECTIONS */}
+
+        {/* PAGE /CCFS */}
+        {/* WE CAN LOOK INTO STRIPE PAYMENT API TEST METHOD AND DEMO GETTING PAYMENT (INTERESTING CHALLENGE) */}
+        {/* OR CURSED WORDS */}
+        <div className="flex-auto flex flex-col items-center max-w-screen-lg pt-12 pb-2 mb-64 w-1/2 h-full">
+          <p className="text-2xl text-black mb-4">Cloud Code Functions</p>
+          <RunCcf onSubmit={handleRunCcf}/>
+        </div>
+        {/* PAGE /CCFS */}
+
+
+        {/* PAGE /FILES */}
+        <div className="flex-auto flex flex-col items-center max-w-screen-lg pt-12 pb-2 mb-64 w-1/2 h-full">
+          <p className="text-2xl text-black mb-4">Files</p>
+          {/* WE SHOULD SHOW CONTENTS OF A FILE HERE, PROBABLY AN IMAGE */}
+          {/* WE PROBABLY DONT NEED TO GET ALL */}
+          {/* <FileInput title='Get all files: ' onSubmit={handleGetAllFiles}/> */}
+          <FileInput title='Get a file' onSubmit={handleGetFile}/>
+          <FileInput title='Delete a file' onSubmit={handleDeleteFile}/>
+          <FileForm onSend={handleSendFile}/>
+        </div>
+        {/* PAGE /FILES */}
       </div>
     </div>
   );

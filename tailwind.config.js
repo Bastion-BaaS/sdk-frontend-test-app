@@ -12,7 +12,8 @@ module.exports = {
       'blue4': '#293473',
       'black1': '#0D0D0D',
       'black2': '#202A37',
-      'white': '#F2F2F2'
+      'white': '#F2F2F2',
+      'gray': '#4d4d4d'
     },
     extend: {
       fontFamily: {

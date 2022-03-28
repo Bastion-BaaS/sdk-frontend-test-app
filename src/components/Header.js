@@ -2,9 +2,9 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header className="flex items-center bg-black2 text-white h-24 mb-4">
+    <header className="flex items-center bg-black2 text-white h-24">
       <div className="flex-auto">
-        <h1 className="text-4xl text-center font-semibold">Customer Demo</h1>
+        <h1 className="text-4xl text-center font-semibold">Your Customer App</h1>
       </div>
     </header>
   );

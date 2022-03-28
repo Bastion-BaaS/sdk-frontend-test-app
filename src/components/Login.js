@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Logout from './Logout';
 
 const Login = ({ onLogin, onLogout }) => {
   const [ username, setUsername ] = useState('');
@@ -19,35 +20,41 @@ const Login = ({ onLogin, onLogout }) => {
     clearInput();
   }
 
-  const handleLogout = () => {
-    onLogout(username);
-    clearInput();
-  }
-
   return (
-    <div>
-      <div>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => changeInput(e, setUsername)}
-          placeholder="username"
-        />
-        <input
-          type="text"
-          value={password}
-          onChange={(e) => changeInput(e, setPassword)}
-          placeholder="password"
-        />
-        <input type="submit" value="Log in" onClick={handleLogin}/>
+    <div className='flex flex-col items-start'>
+      <div className='mt-4 flex flex-row items-start'>
+        <div className='flex flex-col mr-6'>
+          <label htmlFor='username' className='ml-2 inline-flex'>Username</label>
+          <input
+            className='border-blue3 text-black border-2 px-4 py-1 inline-flex rounded-xl'
+            name='username'
+            type="text"
+            value={username}
+            onChange={(e) => changeInput(e, setUsername)}
+            placeholder="your user name here"
+          />
+        </div>
+        <div className='flex flex-col mr-6'>
+        <label htmlFor='user-password' className='ml-2 inline-flex'>Password</label>
+          <input
+            className='border-blue3 text-black border-2 px-4 py-1 inline-flex rounded-xl'
+            name='password'
+            type="text"
+            value={password}
+            onChange={(e) => changeInput(e, setPassword)}
+            placeholder="*******"
+          />
+        </div>
       </div>
-
-      <br/>
-      <br/>
-      
-      <div>
-        <input type="submit" value="Log out" onClick={handleLogout}/>
+      <div className='mb-2 flex flex-row items-start'>
+        <button
+          className='py-1 px-4 my-4 bg-gray hover:bg-blue2 text-white rounded-xl'
+          onClick={handleLogin}
+        >
+          Login
+        </button>
       </div>
+      <Logout currentUser={username} onLogout={onLogout} clearInput={clearInput}/>
     </div>
   )
 };
