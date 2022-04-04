@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CollectionNameInput = ({ title, onSubmit }) => {
+const CollectionNameInput = ({ title, bastion, setActiveCollection }) => {
   const [ collectionName, setCollectionName ] = useState('');
 
   const changeCollection = (e) => {
@@ -9,8 +9,8 @@ const CollectionNameInput = ({ title, onSubmit }) => {
   }
 
   const handleSubmit = () => {
-    onSubmit(collectionName);
-    // setCollectionName('');
+    bastion.db.getAllItems(collectionName)
+      .then(result => setActiveCollection(result.data));
   }
 
   return (

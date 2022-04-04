@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Register = ({ onRegister }) => {
+const Register = ({ bastion, setResultSection }) => {
   const [ username, setUsername ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -16,9 +16,11 @@ const Register = ({ onRegister }) => {
     setPassword('');
   }
 
-  // all 3 are required
   const handleRegister = () => {
-    onRegister(username, email, password);
+    bastion.auth.register(username, email, password)
+      .then((result) => {
+        console.log(result.data);
+      })
     clearInput();
   }
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Logout from './Logout';
 
-const Login = ({ onLogin, onLogout }) => {
+const Login = ({ bastion, login }) => {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
 
@@ -16,7 +15,14 @@ const Login = ({ onLogin, onLogout }) => {
   }
 
   const handleLogin = () => {
-    onLogin(username, password);
+    bastion.auth.login(username, password)
+      .then(result => {
+        if (result.data) {
+          login(username);
+        } else {
+          console.log('login failed');
+        }
+      })
     clearInput();
   }
 
@@ -54,7 +60,7 @@ const Login = ({ onLogin, onLogout }) => {
           Login
         </button>
       </div>
-      <Logout currentUser={username} onLogout={onLogout} clearInput={clearInput}/>
+      
     </div>
   )
 };

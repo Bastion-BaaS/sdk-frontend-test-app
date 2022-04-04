@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
-const CollectionItemInput = ({ title, onSubmit, isJson=false, isUpdate=false }) => {
+const CollectionItemInput = ({ title, onSubmit, isCreate=false, isUpdate=false }) => {
   const [ collectionName, setCollectionName ] = useState('');
   const [ itemId, setItemId ] = useState('');
   const [ jsonInput, setJsonInput] = useState('');
+
+  const isJson = isCreate || isUpdate;
 
   const changeCollectionName = (e) => {
     e.preventDefault();
@@ -24,9 +26,12 @@ const CollectionItemInput = ({ title, onSubmit, isJson=false, isUpdate=false }) 
     if (isUpdate) {
       onSubmit(collectionName, itemId, jsonInput);
       setJsonInput('');
+    } else if (isCreate) {
+      onSubmit(collectionName, jsonInput);
     } else {
-      onSubmit(collectionName, itemId)
+      onSubmit(collectionName, itemId);
     }
+
     setCollectionName('');
     setItemId('');
   }
@@ -44,15 +49,19 @@ const CollectionItemInput = ({ title, onSubmit, isJson=false, isUpdate=false }) 
         />
       </div>
       <div className='flex flex-col items-start w-full ml-2'>
-        <label className='ml-2 inline-flex'>Item</label>
-        <input
-          className='border-blue3 text-black border-2 px-4 py-1 inline-flex rounded-xl'
-          type="text"
-          value={itemId}
-          onChange={changeItemId}
-          placeholder={isJson ? "json object" : "item id"}
-        />
-        {isUpdate &&
+        {!isCreate &&
+          <>
+            <label className='ml-2 inline-flex'>Item Id</label>
+            <input
+              className='border-blue3 text-black border-2 px-4 py-1 inline-flex rounded-xl'
+              type="text"
+              value={itemId}
+              onChange={changeItemId}
+              placeholder="item id"
+            />
+          </>
+        }
+        {(isUpdate || isCreate) &&
           <div className='flex flex-col items-start w-full mt-2'>
             <label className='inline-flex ml-2'>Json</label>
             <input

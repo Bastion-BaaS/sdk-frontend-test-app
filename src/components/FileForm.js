@@ -9,12 +9,12 @@ const FileForm = ({ onSend }) => {
     setIsFileSelected(true);
   }
 
-  const handleSendFile = () => {
+  const handleSendFile = (e) => {
     if (!isFileSelected) {
-      console.log('No file selected');
+      alert('No file selected');
       return;
     }
-
+    document.getElementById("file").value = '';
     onSend(fileState);
     setIsFileSelected(false);
     setFileState(null);
@@ -23,6 +23,7 @@ const FileForm = ({ onSend }) => {
   return (
     <div className='flex flex-col items-start w-full mt-4'>
       <input
+        id='file'
         type='file'
         name='file'
         onChange={handleUploadFile}
