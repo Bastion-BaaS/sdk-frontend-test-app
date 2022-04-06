@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
-const RunCcf = ({ bastion, setResultSection }) => {
+const RunCcf = ({ bastion }) => {
   const [ ccfName, setCcfName ] = useState('');
   const [ params, setParams ] = useState([]);
 
   const handleSubmit = () => {
-    const paramArray = getParams(params);
-    bastion.ccf.run(ccfName, paramArray)
+    if (params === '') {setParams('{}')}
+    bastion.ccf.run(ccfName, params)
       .then((result) => {
-        setResultSection(result.data);
         console.log(result.data);
       });
     setCcfName('');
@@ -22,10 +21,6 @@ const RunCcf = ({ bastion, setResultSection }) => {
   const changeParams = (e) => {
     e.preventDefault();
     setParams(e.target.value);
-  }
-
-  const getParams = (paramString) => {
-    return paramString.split(',').map(word => word.trim());
   }
 
   return (
@@ -52,7 +47,7 @@ const RunCcf = ({ bastion, setResultSection }) => {
               type="text"
               value={params}
               onChange={changeParams}
-              placeholder="list, optional, params"
+              placeholder="json object"
             />
           </div>
         </div>

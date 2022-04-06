@@ -11,19 +11,24 @@ const Header = () => {
           <h1 className="text-4xl text-center font-semibold">Your Customer App</h1>
         </div>
       </header>
-      <nav>
-        <Link to='/users' className='border-black border-2'>
-          <button>Users</button>
-        </Link>
-        <Link to='/collections' className='border-black border-2'>
-          <button>Collections</button>
-        </Link>
-        <Link to='/files' className='border-black border-2 px-4'>
-          <button>Files</button>
-        </Link>
-        <Link to='/cloudcode' className='border-black border-2'>
-          <button>Cloud Code</button>
-        </Link>
+      <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
+        <div className="flex space-x-4">
+          <Link to='/users' className='text-gray-300 hover:bg-gray hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+            <button>Users</button>
+          </Link>
+          <Link to='/collections' className='text-gray-300 hover:bg-gray hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+            <button>Collections</button>
+          </Link>
+          <Link to='/files' className='text-gray-300 hover:bg-gray hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+            <button>Files</button>
+          </Link>
+          <Link to='/cloudcode' className='text-gray-300 hover:bg-gray hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+            <button>Cloud Code</button>
+          </Link>
+          <Link to='/stripe' className='text-gray-300 hover:bg-gray hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+            <button>Stripe</button>
+          </Link>
+        </div>
       </nav>
       <div className='flex flex-col items-center h-full' id='main'>
         <Outlet context={{loggedIn, setLoggedIn}} />
